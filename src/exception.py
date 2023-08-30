@@ -3,6 +3,7 @@
 
 import sys # It allows you to interact with the Python runtime environment and perform tasks related to system and program execution
 import logging
+from logger import logging
 
 def error_message_detail(error, error_detail:sys): # sys containd error related details
     _, _, exc_tb = error_detail.exc_info() # exc_info() -> Execution Info, it gives 3 important info where the first 2 info is not relative to this senario
@@ -29,13 +30,13 @@ class CustomException(Exception): # exception class named CustomException that i
 
 # TESTING
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
 
-#     try:
-#         a=1/0
-#     except Exception as e:
-#         logging.info("Divide by Zero Error")
-#         raise CustomException(e, sys)
+    try:
+        a=1/0
+    except Exception as e:
+        logging.info("Divide by Zero Error")
+        raise CustomException(e, sys)
 
 
 
