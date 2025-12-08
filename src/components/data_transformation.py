@@ -10,10 +10,10 @@ from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-from exception import CustomException
-from logger import logging
+from src.exception import CustomException
+from src.logger import logging
 
-from utils import save_object
+from src.utils import save_object
 
 
 @dataclass
@@ -82,9 +82,10 @@ class DataTransformation:
 
             preprocessor_obj = self.get_data_transformer_object()
 
-            target_column_name = "math score"
+            target_column_name = "math score"  # Target Column
             numerical_columns = ["writing score", "reading score"]
 
+            # Dropping the target column 
             input_feature_train_df = train_df.drop(columns=[target_column_name], axis=1)
             target_feature_train_df = train_df[target_column_name]
 
