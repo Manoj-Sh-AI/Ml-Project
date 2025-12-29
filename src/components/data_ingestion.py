@@ -39,9 +39,16 @@ class DataIngestion:  # contains required functions
         logging.info("Enter the data ingestion method or component")
 
         try:
+            # Resolve dataset path relative to project root so script works
+            project_root = Path(__file__).resolve().parents[2]
+            data_file = project_root / "notebook" / "data" / "StudentsPerformance.csv"
+
+            if not data_file.exists():
+                raise FileNotFoundError(f"Dataset not found at {data_file}")
+
             df = pd.read_csv(
-                "notebook/data/StudentsPerformance.csv"
-            )  # this can be chainged to read from different data bases
+                str(data_file)
+            )  # this can be changed to read from different data sources
 
             logging.info("Read the dataset as Dataframe")
 

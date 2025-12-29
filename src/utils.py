@@ -1,14 +1,14 @@
 import os
 import sys
 
-import numpy as np 
+import numpy as np
 import pandas as pd
 import dill
-import pickle
 from sklearn.metrics import r2_score
 from sklearn.model_selection import GridSearchCV
 
 from src.exception import CustomException
+
 
 def save_object(file_path, obj):
     try:
@@ -17,26 +17,27 @@ def save_object(file_path, obj):
         os.makedirs(dir_path, exist_ok=True)
 
         with open(file_path, "wb") as file_obj:
-            pickle.dump(obj, file_obj)
+            dill.dump(obj, file_obj)
 
     except Exception as e:
         raise CustomException(e, sys)
-    
-def evaluate_models(X_train, y_train,X_test,y_test,models,param):
+
+
+def evaluate_models(X_train, y_train, X_test, y_test, models, param):
     try:
         report = {}
 
         for i in range(len(list(models))):
             model = list(models.values())[i]
-            para=param[list(models.keys())[i]]
+            para = param[list(models.keys())[i]]
 
-            gs = GridSearchCV(model,para,cv=3)
-            gs.fit(X_train,y_train)
+            gs = GridSearchCV(model, para, cv=3)
+            gs.fit(X_train, y_train)
 
             model.set_params(**gs.best_params_)
-            model.fit(X_train,y_train)
+            model.fit(X_train, y_train)
 
-            #model.fit(X_train, y_train)  # Train model
+            # model.fit(X_train, y_train)  # Train model
 
             y_train_pred = model.predict(X_train)
 
@@ -52,11 +53,38 @@ def evaluate_models(X_train, y_train,X_test,y_test,models,param):
 
     except Exception as e:
         raise CustomException(e, sys)
-    
+
+
 def load_object(file_path):
     try:
         with open(file_path, "rb") as file_obj:
-            return pickle.load(file_obj)
+            return dill.load(file_obj)
 
     except Exception as e:
+        # Compatibility fallback: some sklearn versions renamed internal
+        # classes used by ColumnTransformer. If unpickling fails due to
+        # a missing internal attribute (e.g. `_RemainderColsList`), inject
+        # a simple placeholder into the sklearn module and retry.
+        try:
+            msg = str(e)
+            if "_RemainderColsList" in msg:
+                import importlib
+
+                try:
+                    mod = importlib.import_module("sklearn.compose._column_transformer")
+                except Exception:
+                    raise
+
+                if not hasattr(mod, "_RemainderColsList"):
+
+                    class _RemainderColsList(list):
+                        pass
+
+                    setattr(mod, "_RemainderColsList", _RemainderColsList)
+
+                with open(file_path, "rb") as file_obj:
+                    return dill.load(file_obj)
+        except Exception:
+            pass
+
         raise CustomException(e, sys)
