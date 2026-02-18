@@ -118,57 +118,57 @@
                 <div class="col-md-6">
                     <label class="form-label">Gender</label>
                     <select class="form-select" name="gender" required>
-                        <option value="" disabled selected>Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
+                        <option value="" disabled {% if not form_data.get('gender') %}selected{% endif %}>Select Gender</option>
+                        <option value="male" {% if form_data.get('gender') == 'male' %}selected{% endif %}>Male</option>
+                        <option value="female" {% if form_data.get('gender') == 'female' %}selected{% endif %}>Female</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Ethnicity</label>
                     <select class="form-select" name="ethnicity" required>
-                        <option value="" disabled selected>Select Ethnicity</option>
-                        <option value="group A">Group A</option>
-                        <option value="group B">Group B</option>
-                        <option value="group C">Group C</option>
-                        <option value="group D">Group D</option>
-                        <option value="group E">Group E</option>
+                        <option value="" disabled {% if not form_data.get('ethnicity') %}selected{% endif %}>Select Ethnicity</option>
+                        <option value="group A" {% if form_data.get('ethnicity') == 'group A' %}selected{% endif %}>Group A</option>
+                        <option value="group B" {% if form_data.get('ethnicity') == 'group B' %}selected{% endif %}>Group B</option>
+                        <option value="group C" {% if form_data.get('ethnicity') == 'group C' %}selected{% endif %}>Group C</option>
+                        <option value="group D" {% if form_data.get('ethnicity') == 'group D' %}selected{% endif %}>Group D</option>
+                        <option value="group E" {% if form_data.get('ethnicity') == 'group E' %}selected{% endif %}>Group E</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Parental Education</label>
                     <select class="form-select" name="parental_level_of_education" required>
-                        <option value="" disabled selected>Select Level</option>
-                        <option value="associate's degree">Associate's Degree</option>
-                        <option value="bachelor's degree">Bachelor's Degree</option>
-                        <option value="high school">High School</option>
-                        <option value="master's degree">Master's Degree</option>
-                        <option value="some college">Some College</option>
-                        <option value="some high school">Some High School</option>
+                        <option value="" disabled {% if not form_data.get('parental_level_of_education') %}selected{% endif %}>Select Level</option>
+                        <option value="associate's degree" {% if form_data.get('parental_level_of_education') == "associate's degree" %}selected{% endif %}>Associate's Degree</option>
+                        <option value="bachelor's degree" {% if form_data.get('parental_level_of_education') == "bachelor's degree" %}selected{% endif %}>Bachelor's Degree</option>
+                        <option value="high school" {% if form_data.get('parental_level_of_education') == "high school" %}selected{% endif %}>High School</option>
+                        <option value="master's degree" {% if form_data.get('parental_level_of_education') == "master's degree" %}selected{% endif %}>Master's Degree</option>
+                        <option value="some college" {% if form_data.get('parental_level_of_education') == "some college" %}selected{% endif %}>Some College</option>
+                        <option value="some high school" {% if form_data.get('parental_level_of_education') == "some high school" %}selected{% endif %}>Some High School</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Lunch Type</label>
                     <select class="form-select" name="lunch" required>
-                        <option value="" disabled selected>Select Type</option>
-                        <option value="free/reduced">Free/Reduced</option>
-                        <option value="standard">Standard</option>
+                        <option value="" disabled {% if not form_data.get('lunch') %}selected{% endif %}>Select Type</option>
+                        <option value="free/reduced" {% if form_data.get('lunch') == "free/reduced" %}selected{% endif %}>Free/Reduced</option>
+                        <option value="standard" {% if form_data.get('lunch') == "standard" %}selected{% endif %}>Standard</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Test Prep Course</label>
                     <select class="form-select" name="test_preparation_course" required>
-                        <option value="" disabled selected>Select Status</option>
-                        <option value="none">None</option>
-                        <option value="completed">Completed</option>
+                        <option value="" disabled {% if not form_data.get('test_preparation_course') %}selected{% endif %}>Select Status</option>
+                        <option value="none" {% if form_data.get('test_preparation_course') == "none" %}selected{% endif %}>None</option>
+                        <option value="completed" {% if form_data.get('test_preparation_course') == "completed" %}selected{% endif %}>Completed</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Reading Score (0-100)</label>
-                    <input class="form-control" type="number" name="reading_score" min="0" max="100" required>
+                    <input class="form-control" type="number" name="reading_score" min="0" max="100" value="{{ form_data.get('reading_score', '') }}" required>
                 </div>
                 <div class="col-12">
                     <label class="form-label">Writing Score (0-100)</label>
-                    <input class="form-control" type="number" name="writing_score" min="0" max="100" required>
+                    <input class="form-control" type="number" name="writing_score" min="0" max="100" value="{{ form_data.get('writing_score', '') }}" required>
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-predict">
